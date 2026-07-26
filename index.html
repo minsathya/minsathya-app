@@ -1,340 +1,537 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Minsathya</title>
-  <style>
-    /* Base Reset & Theme Setup */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>sathya.</title>
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: #0b0b0b; /* Dark theme */
-      color: #e2e8f0; /* Soft white */
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-    }
+    <!-- Universal iPad stabilization -->
+    <script>
+      if (window.location.search.includes('tf=1') || window.location.href.includes(':~:text=')) {
+        document.documentElement.classList.add('instant-landing');
+      }
+    </script>
 
-    /* Clean Header - Borderless */
-    header {
-      width: 100%;
-      padding: 48px 24px 12px;
-      text-align: center;
-      background: #0b0b0b;
-      border: none;
-      z-index: 10;
-    }
+    <meta name="description" content="Personal workspace for study notes, resources, and current affairs.">
 
-    header h1 {
-      font-size: 26px;
-      font-weight: 700;
-      color: #e2e8f0;
-      letter-spacing: -0.3px;
-    }
+    <!-- Google Tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5VGX2K64Y4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-5VGX2K64Y4');
+    </script>
+    
+    <!-- Favicon Engine -->
+    <link id="favicon" rel="icon" type="image/png" href="favicon-light.png">
 
-    header p {
-      font-size: 14px;
-      color: #8a8f99;
-      margin-top: 4px;
-    }
+    <script>
+      const favicon = document.getElementById('favicon');
+      const darkMode = window.matchMedia('(prefers-color-scheme: dark)');
+      
+      function updateFavicon(e) {
+        favicon.href = e.matches ? 'favicon-dark.png' : 'favicon-light.png';
+      }
+      
+      updateFavicon(darkMode);
+      darkMode.addEventListener('change', updateFavicon);
+    </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+            --bg-color: #0b0b0b;
+            --text-main: #ffffff;
+            --text-muted: #666666;
+            --panel-bg: #121212;
+            --panel-border: #222222;
+            
+            /* 3D Workspace Container Variables */
+            --myspace-bg: #141414;
+            --myspace-border: #242424;
+            --myspace-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            --card-shadow-hover: 0 16px 36px rgba(0, 0, 0, 0.45);
+            --card-border-hover: #383838;
+        }
 
-    /* Content Area with Fluid Cross-Fade Capabilities */
-    .content-slider {
-      display: flex;
-      width: 100vw;
-      flex: 1;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-      padding-bottom: 120px;
-      scrollbar-width: none;
-      transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-      opacity: 1;
-    }
+        body.light-mode {
+            --bg-color: #ebebe4;
+            --text-main: #111111;
+            --text-muted: #88888e;
+            --panel-bg: #ffffff;
+            --panel-border: #e2e2e7;
+            
+            --myspace-bg: #f5f5f0;
+            --myspace-border: #dcdce0;
+            --myspace-shadow: 0 20px 45px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+            --card-shadow-hover: 0 16px 32px rgba(0, 0, 0, 0.09);
+            --card-border-hover: #b8b8c0;
+        }
 
-    .content-slider.fade-out {
-      opacity: 0;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent !important;
+            tap-highlight-color: transparent !important;
+        }
 
-    .content-slider::-webkit-scrollbar {
-      display: none;
-    }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.8s var(--ease-smooth), color 0.8s var(--ease-smooth);
+        }
 
-    .tab-content {
-      flex: 0 0 100vw;
-      width: 100vw;
-      scroll-snap-align: start;
-      scroll-snap-stop: always;
-      padding: 20px;
-      box-sizing: border-box;
-      display: flex;
-      justify-content: center;
-    }
+        /* ---------------------------------------------------- */
+        /* HORIZONTAL SLIDER & SMART JUMP CONTAINER             */
+        /* ---------------------------------------------------- */
+        .content-slider {
+            display: flex;
+            width: 100vw;
+            flex: 1;
+            min-height: 100vh;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 120px; /* Space for bottom floating circles */
+            scrollbar-width: none;
+            transition: opacity 0.18s var(--ease-smooth);
+            opacity: 1;
+        }
 
-    .card {
-      width: 100%;
-      max-width: 480px;
-      background: #151515;
-      border-radius: 20px;
-      padding: 24px;
-      border: none;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-      height: fit-content;
-    }
+        .content-slider.fade-out {
+            opacity: 0;
+        }
 
-    .card h3 {
-      font-size: 18px;
-      color: #e2e8f0;
-      margin-bottom: 8px;
-      font-weight: 600;
-    }
+        .content-slider::-webkit-scrollbar {
+            display: none;
+        }
 
-    .card p {
-      font-size: 14px;
-      color: #94a3b8;
-      line-height: 1.5;
-    }
+        .tab-content {
+            flex: 0 0 100vw;
+            width: 100vw;
+            min-height: calc(100vh - 120px);
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            padding: 24px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center; /* PERFECT VERTICAL & HORIZONTAL CENTERING */
+        }
 
-    /* ---------------------------------------------------- */
-    /* DYNAMIC HORIZONTALLY CENTERED FLOATING NAVIGATION    */
-    /* ---------------------------------------------------- */
-    .floating-nav-wrapper {
-      position: fixed;
-      bottom: 28px;
-      left: 0;
-      width: 100vw;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      pointer-events: none;
-      z-index: 9999;
-      overflow: visible;
-    }
+        /* ---------------------------------------------------- */
+        /* MY SPACE CONTAINER & CARDS                           */
+        /* ---------------------------------------------------- */
+        .myspace-container {
+            width: 100%;
+            max-width: 680px;
+            background-color: var(--myspace-bg);
+            border: 1px solid var(--myspace-border);
+            border-radius: 36px;
+            padding: 36px 28px;
+            box-shadow: var(--myspace-shadow);
+            transition: background-color 0.8s var(--ease-smooth), border-color 0.8s var(--ease-smooth), box-shadow 0.8s var(--ease-smooth);
+        }
 
-    /* Sliding Button Track */
-    .nav-track {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      pointer-events: auto;
-      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: transform;
-    }
+        .myspace-title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            color: var(--text-main);
+            margin-bottom: 28px;
+            transition: color 0.8s var(--ease-smooth);
+        }
 
-    /* Inactive Circle Buttons */
-    .nav-circle {
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      background: #1c1c1e;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #71717a;
-      cursor: pointer;
-      flex-shrink: 0;
+        .myspace-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: stretch;
+            gap: 20px;
+            width: 100%;
+        }
 
-      /* Fluid morphing transitions */
-      transition: 
-        width 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-        height 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-        background-color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-        color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-        box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-        transform 0.2s ease;
+        .myspace-card {
+            flex: 1 1 calc(50% - 10px);
+            min-width: 180px;
+            max-width: 280px;
+            background-color: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 24px;
+            padding: 28px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            text-decoration: none !important;
+            box-shadow: var(--card-shadow);
+            touch-action: manipulation;
+            
+            will-change: transform, box-shadow, border-color;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+            
+            transition: transform 0.55s var(--ease-smooth), 
+                        box-shadow 0.55s var(--ease-smooth), 
+                        border-color 0.55s var(--ease-smooth), 
+                        background-color 0.8s var(--ease-smooth);
+        }
 
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
+        .myspace-card-icon {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.55s var(--ease-smooth);
+        }
 
-    .nav-circle svg {
-      width: 22px;
-      height: 22px;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      fill: none;
-      transition: 
-        width 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-        height 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-        stroke 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+        .myspace-card-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-main);
+            letter-spacing: -0.2px;
+            transition: color 0.8s var(--ease-smooth);
+        }
 
-    /* Active Centered Enlarged Circle */
-    .nav-circle.active {
-      width: 68px;
-      height: 68px;
-      background: #2c2c2e;
-      color: #e2e8f0;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-    }
+        /* Hover & Active Lift Dynamics */
+        @media (hover: hover) and (pointer: fine) {
+            .myspace-card:hover {
+                transform: translate3d(0, -6px, 0) scale3d(1.02, 1.02, 1);
+                border-color: var(--card-border-hover);
+                box-shadow: var(--card-shadow-hover);
+            }
 
-    .nav-circle.active svg {
-      width: 28px;
-      height: 28px;
-      stroke: #e2e8f0;
-      stroke-width: 2.2;
-    }
+            .myspace-card:hover .myspace-card-icon {
+                transform: scale3d(1.08, 1.08, 1);
+            }
+        }
 
-    .nav-circle:active {
-      transform: scale(0.92);
-    }
-  </style>
+        .myspace-card.is-card-lifted {
+            transform: translate3d(0, -6px, 0) scale3d(1.02, 1.02, 1) !important;
+            border-color: var(--card-border-hover) !important;
+            box-shadow: var(--card-shadow-hover) !important;
+        }
+
+        .myspace-card.is-card-lifted .myspace-card-icon {
+            transform: scale3d(1.08, 1.08, 1) !important;
+        }
+
+        /* ---------------------------------------------------- */
+        /* DYNAMIC HORIZONTALLY CENTERED FLOATING NAVIGATION    */
+        /* ---------------------------------------------------- */
+        .floating-nav-wrapper {
+            position: fixed;
+            bottom: 28px;
+            left: 0;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: visible;
+        }
+
+        /* Sliding Button Track */
+        .nav-track {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            pointer-events: auto;
+            transition: transform 0.45s var(--ease-smooth);
+            will-change: transform;
+        }
+
+        /* Inactive Circle Buttons */
+        .nav-circle {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: #1c1c1e;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #71717a; /* Muted gray icon */
+            cursor: pointer;
+            flex-shrink: 0;
+
+            /* Fluid morphing transitions */
+            transition: 
+                width 0.45s var(--ease-smooth),
+                height 0.45s var(--ease-smooth),
+                background-color 0.45s var(--ease-smooth),
+                color 0.45s var(--ease-smooth),
+                box-shadow 0.45s var(--ease-smooth),
+                transform 0.2s ease;
+
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-circle svg {
+            width: 22px;
+            height: 22px;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+            transition: 
+                width 0.45s var(--ease-smooth),
+                height 0.45s var(--ease-smooth),
+                stroke 0.45s var(--ease-smooth);
+        }
+
+        /* Active Centered Enlarged Circle */
+        .nav-circle.active {
+            width: 68px;
+            height: 68px;
+            background: #2c2c2e; /* Soft lighter highlight circle */
+            color: #e2e8f0; /* Soft White */
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+        }
+
+        .nav-circle.active svg {
+            width: 28px;
+            height: 28px;
+            stroke: #e2e8f0;
+            stroke-width: 2.2;
+        }
+
+        .nav-circle:active {
+            transform: scale(0.92);
+        }
+
+        @media (max-width: 700px) {
+            .myspace-container { padding: 28px 18px; border-radius: 28px; }
+            .myspace-title { font-size: 19px; margin-bottom: 20px; }
+            .myspace-card { padding: 22px 16px; border-radius: 20px; }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header>
-    <h1>Minsathya</h1>
-    <p>Smart Jump Navigation</p>
-  </header>
+    <!-- Main Horizontal Page Slider -->
+    <main class="content-slider" id="contentSlider">
+        
+        <!-- Tab 0: Home / My Space Workspace -->
+        <div id="page-0" class="tab-content">
+            <div class="myspace-container">
+                <h2 class="myspace-title">My Space</h2>
+                
+                <div class="myspace-grid" id="myspaceGrid">
+                    
+                    <!-- Capsule 1: Study -->
+                    <a href="/study/index.html" class="myspace-card">
+                        <div class="myspace-card-icon">
+                            <svg width="52" height="52" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 16C7 13.2386 9.23858 11 12 11H30V50H12C9.23858 50 7 47.7614 7 45V16Z" fill="#0C2340"/>
+                                <path d="M57 16C57 13.2386 54.7614 11 52 11H34V50H52C54.7614 50 57 47.7614 57 45V16Z" fill="#0C2340"/>
+                                <path d="M10 17C10 14.7909 11.7909 13 14 13H30V48H14C11.7909 48 10 46.2091 10 44V17Z" fill="#0080FF"/>
+                                <path d="M54 17C54 14.7909 52.2091 13 50 13H34V48H50C52.2091 48 54 46.2091 54 44V17Z" fill="#0080FF"/>
+                                <path d="M30 50C30 51.6569 30.8954 53 32 53C33.1046 53 34 51.6569 34 50V11H30V50Z" fill="#071526"/>
+                                <rect x="14" y="19" width="12" height="2.5" rx="1.25" fill="#FFFFFF"/>
+                                <rect x="14" y="25" width="12" height="2.5" rx="1.25" fill="#FFFFFF"/>
+                                <rect x="14" y="31" width="12" height="2.5" rx="1.25" fill="#FFFFFF"/>
+                                <rect x="14" y="37" width="12" height="2.5" rx="1.25" fill="#FFFFFF"/>
+                                <rect x="38" y="19" width="12" height="2.5" rx="1.25" fill="#FFFFFF"/>
+                                <rect x="38" y="25" width="12" height="2.5" rx="1.25" fill="#FFFFFF"/>
+                                <rect x="38" y="31" width="12" height="2.5" rx="1.25" fill="#FFFFFF"/>
+                                <rect x="38" y="37" width="12" height="2.5" rx="1.25" fill="#FFFFFF"/>
+                            </svg>
+                        </div>
+                        <span class="myspace-card-title">Study</span>
+                    </a>
 
-  <!-- Content Container -->
-  <main class="content-slider" id="contentSlider">
-    
-    <div id="page-0" class="tab-content">
-      <div class="card">
-        <h3>Home Page</h3>
-        <p>Try tapping Profile (the last icon). The app skips intermediate pages smoothly with a cross-fade while the bottom buttons slide across!</p>
-      </div>
+                    <!-- Capsule 2: Nutrition -->
+                    <a href="/nutrition/index.html" class="myspace-card">
+                        <div class="myspace-card-icon">
+                            <svg width="56" height="56" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="96" y="440" width="320" height="14" rx="7" fill="#58341a"/>
+                                <path d="M 256 420 C 256 360 252 300 205 235" stroke="#72b528" stroke-width="20" stroke-linecap="round"/>
+                                <path d="M 250 335 C 250 300 268 270 300 230" stroke="#72b528" stroke-width="18" stroke-linecap="round"/>
+                                <path d="M 210 280 C 185 305 95 300 82 205 C 72 178 78 152 82 150 C 88 150 120 148 185 178 C 242 205 252 250 210 280 Z" fill="#81cc33"/>
+                                <path d="M 82 150 C 115 148 185 162 240 230 C 230 200 172 165 115 152 C 95 148 85 150 82 150 Z" fill="#69ad22"/>
+                                <path d="M 195 260 Q 140 215 98 190" stroke="#9de048" stroke-width="12" stroke-linecap="round"/>
+                                <path d="M 260 280 C 278 300 358 298 398 238 C 408 218 402 195 398 192 C 392 192 362 192 312 210 C 258 230 248 260 260 280 Z" fill="#7ac42e"/>
+                                <path d="M 398 192 C 372 190 312 202 260 260 C 270 238 318 208 368 198 C 388 194 396 193 398 192 Z" fill="#62a420"/>
+                                <path d="M 285 260 Q 338 232 380 220" stroke="#96db42" stroke-width="11" stroke-linecap="round"/>
+                                <path d="M 125 440 C 130 405 165 375 210 375 C 228 375 240 385 256 385 C 272 385 284 375 302 375 C 347 375 382 405 387 440 Z" fill="#8c5027"/>
+                                <path d="M 125 440 C 130 415 160 395 200 395 C 220 395 238 402 256 402 C 274 402 292 395 312 395 C 352 395 382 415 387 440 Z" fill="#a46332"/>
+                                <path d="M 190 422 C 220 398 256 395 290 400 C 330 406 360 422 256 422 C 215 422 198 426 190 422 Z" fill="#b8723c"/>
+                            </svg>
+                        </div>
+                        <span class="myspace-card-title">Nutrition</span>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 1: Workspace Search -->
+        <div id="page-1" class="tab-content">
+            <div class="myspace-container" style="text-align: center;">
+                <h2 class="myspace-title">Workspace Search</h2>
+                <p style="color: var(--text-muted); font-size: 14px;">Quickly search your study notes and nutrition logs.</p>
+            </div>
+        </div>
+
+        <!-- Tab 2: Activity & Updates -->
+        <div id="page-2" class="tab-content">
+            <div class="myspace-container" style="text-align: center;">
+                <h2 class="myspace-title">Recent Updates</h2>
+                <p style="color: var(--text-muted); font-size: 14px;">View latest current affairs, study modules, and sync logs.</p>
+            </div>
+        </div>
+
+        <!-- Tab 3: User Profile -->
+        <div id="page-3" class="tab-content">
+            <div class="myspace-container" style="text-align: center;">
+                <h2 class="myspace-title">Settings &amp; Profile</h2>
+                <p style="color: var(--text-muted); font-size: 14px;">Manage app preferences, theme modes, and sync parameters.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 4 Standalone Floating Centered Circular Navigation Buttons -->
+    <div class="floating-nav-wrapper">
+        <nav class="nav-track" id="navTrack">
+            
+            <!-- Circle 0: Home -->
+            <button class="nav-circle active" data-index="0" onclick="navigateToPage(0)">
+                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            </button>
+
+            <!-- Circle 1: Search -->
+            <button class="nav-circle" data-index="1" onclick="navigateToPage(1)">
+                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" ry="5"></rect><rect x="9" y="9" width="6" height="6" rx="1.5"></rect></svg>
+            </button>
+
+            <!-- Circle 2: Updates -->
+            <button class="nav-circle" data-index="2" onclick="navigateToPage(2)">
+                <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            </button>
+
+            <!-- Circle 3: Profile -->
+            <button class="nav-circle" data-index="3" onclick="navigateToPage(3)">
+                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </button>
+
+        </nav>
     </div>
 
-    <div id="page-1" class="tab-content">
-      <div class="card">
-        <h3>Search</h3>
-        <p>Adjacent taps (like Home to Search) keep a natural sliding motion.</p>
-      </div>
-    </div>
+    <script>
+        const slider = document.getElementById('contentSlider');
+        const track = document.getElementById('navTrack');
+        const buttons = document.querySelectorAll('.nav-circle');
+        
+        let currentIndex = 0;
+        let isClickScrolling = false;
 
-    <div id="page-2" class="tab-content">
-      <div class="card">
-        <h3>Live Updates</h3>
-        <p>Check your latest news and notifications here.</p>
-      </div>
-    </div>
+        // Dynamic Centering Calculation
+        function updateActiveButton(index) {
+            buttons.forEach((btn, i) => {
+                btn.classList.toggle('active', i === index);
+            });
 
-    <div id="page-3" class="tab-content">
-      <div class="card">
-        <h3>User Profile</h3>
-        <p>You jumped straight to Profile without seeing the middle pages flash by!</p>
-      </div>
-    </div>
+            const activeBtn = buttons[index];
+            const trackCenter = track.offsetWidth / 2;
+            const activeBtnCenter = activeBtn.offsetLeft + (activeBtn.offsetWidth / 2);
+            const shiftX = trackCenter - activeBtnCenter;
 
-  </main>
+            track.style.transform = `translateX(${shiftX}px)`;
+            currentIndex = index;
+        }
 
-  <!-- Dynamic Floating Navigation Track -->
-  <div class="floating-nav-wrapper">
-    <nav class="nav-track" id="navTrack">
-      
-      <button class="nav-circle active" data-index="0" onclick="navigateToPage(0)">
-        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-      </button>
+        // Smart Jump Physics Logic
+        function navigateToPage(targetIndex) {
+            if (targetIndex === currentIndex) return;
 
-      <button class="nav-circle" data-index="1" onclick="navigateToPage(1)">
-        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" ry="5"></rect><rect x="9" y="9" width="6" height="6" rx="1.5"></rect></svg>
-      </button>
+            isClickScrolling = true;
+            const distance = Math.abs(targetIndex - currentIndex);
+            const targetPage = document.getElementById(`page-${targetIndex}`);
 
-      <button class="nav-circle" data-index="2" onclick="navigateToPage(2)">
-        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-      </button>
+            // Bottom bar track slides smoothly to center
+            updateActiveButton(targetIndex);
 
-      <button class="nav-circle" data-index="3" onclick="navigateToPage(3)">
-        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-      </button>
+            if (distance > 1) {
+                // SMART JUMP: Cross-fade to hide middle pages
+                slider.classList.add('fade-out');
 
-    </nav>
-  </div>
+                setTimeout(() => {
+                    slider.style.scrollBehavior = 'auto'; // Temporarily disable slide
+                    slider.scrollLeft = targetPage.offsetLeft;
+                    slider.style.scrollBehavior = 'smooth';
+                    slider.classList.remove('fade-out');
 
-  <script>
-    const slider = document.getElementById('contentSlider');
-    const track = document.getElementById('navTrack');
-    const buttons = document.querySelectorAll('.nav-circle');
-    
-    let currentIndex = 0;
-    let isClickScrolling = false;
+                    setTimeout(() => { isClickScrolling = false; }, 200);
+                }, 180);
 
-    // Recalculates track position to keep active button centered
-    function updateActiveButton(index) {
-      buttons.forEach((btn, i) => {
-        btn.classList.toggle('active', i === index);
-      });
+            } else {
+                // ADJACENT NAVIGATION: Natural slide scroll
+                slider.scrollTo({
+                    left: targetPage.offsetLeft,
+                    behavior: 'smooth'
+                });
 
-      const activeBtn = buttons[index];
-      const trackCenter = track.offsetWidth / 2;
-      const activeBtnCenter = activeBtn.offsetLeft + (activeBtn.offsetWidth / 2);
-      const shiftX = trackCenter - activeBtnCenter;
+                setTimeout(() => { isClickScrolling = false; }, 450);
+            }
+        }
 
-      track.style.transform = `translateX(${shiftX}px)`;
-      currentIndex = index;
-    }
+        // Horizontal Finger Swipe Event Listener
+        slider.addEventListener('scroll', () => {
+            if (isClickScrolling) return;
 
-    // Smart Jump Logic
-    function navigateToPage(targetIndex) {
-      if (targetIndex === currentIndex) return;
-
-      isClickScrolling = true;
-      const distance = Math.abs(targetIndex - currentIndex);
-      const targetPage = document.getElementById(`page-${targetIndex}`);
-
-      // Smooth track animation always plays
-      updateActiveButton(targetIndex);
-
-      if (distance > 1) {
-        // SMART JUMP: Cross-fade to hide fast-forward scrolling
-        slider.classList.add('fade-out');
-
-        setTimeout(() => {
-          slider.style.scrollBehavior = 'auto'; // Disable smooth scroll briefly
-          slider.scrollLeft = targetPage.offsetLeft;
-          slider.style.scrollBehavior = 'smooth';
-          slider.classList.remove('fade-out');
-
-          setTimeout(() => { isClickScrolling = false; }, 200);
-        }, 180);
-
-      } else {
-        // ADJACENT NAVIGATION: Natural slide scroll
-        slider.scrollTo({
-          left: targetPage.offsetLeft,
-          behavior: 'smooth'
+            const pageWidth = window.innerWidth;
+            const activeIndex = Math.round(slider.scrollLeft / pageWidth);
+            
+            if (activeIndex !== currentIndex) {
+                updateActiveButton(activeIndex);
+            }
         });
 
-        setTimeout(() => { isClickScrolling = false; }, 450);
-      }
-    }
+        // Touch Lift Interaction for Cards
+        document.querySelectorAll('.myspace-card').forEach(card => {
+            card.addEventListener('touchstart', function() {
+                this.classList.add('is-card-lifted');
+            }, { passive: true });
 
-    // Horizontal finger swipe listener
-    slider.addEventListener('scroll', () => {
-      if (isClickScrolling) return;
+            card.addEventListener('touchend', function() {
+                setTimeout(() => this.classList.remove('is-card-lifted'), 300);
+            }, { passive: true });
+        });
 
-      const pageWidth = window.innerWidth;
-      const activeIndex = Math.round(slider.scrollLeft / pageWidth);
-      
-      if (activeIndex !== currentIndex) {
-        updateActiveButton(activeIndex);
-      }
-    });
+        // Initialize centering on load and resize
+        window.addEventListener('DOMContentLoaded', () => {
+            updateActiveButton(0);
+        });
 
-    // Initialize track positioning on startup
-    window.addEventListener('DOMContentLoaded', () => {
-      updateActiveButton(0);
-    });
-
-    window.addEventListener('resize', () => {
-      updateActiveButton(currentIndex);
-    });
-  </script>
-
+        window.addEventListener('resize', () => {
+            updateActiveButton(currentIndex);
+        });
+    </script>
 </body>
 </html>
