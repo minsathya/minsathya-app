@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Minsathya</title>
   <style>
-    /* Base Reset & Theme Setup */
+    /* Base Reset */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -15,7 +15,7 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: #0b0b0b; /* Requested main background */
+      background-color: #0b0b0b; /* Dark background */
       color: #e2e8f0; /* Soft White */
       min-height: 100vh;
       padding-bottom: 120px;
@@ -24,13 +24,13 @@
       align-items: center;
     }
 
-    /* Clean Header - Completely Borderless */
+    /* Clean Header - Borderless */
     header {
       width: 100%;
       padding: 48px 24px 16px;
       text-align: center;
       background: #0b0b0b;
-      border: none; /* No separating lines */
+      border: none; /* No lines */
     }
 
     header h1 {
@@ -42,7 +42,7 @@
 
     header p {
       font-size: 14px;
-      color: #8a8f99; /* Soft muted gray */
+      color: #8a8f99; /* Soft gray */
       margin-top: 6px;
     }
 
@@ -78,211 +78,156 @@
 
     .card h3 {
       font-size: 18px;
-      color: #e2e8f0; /* Soft white */
+      color: #e2e8f0;
       margin-bottom: 8px;
       font-weight: 600;
     }
 
     .card p {
       font-size: 14px;
-      color: #94a3b8; /* Soft muted text */
+      color: #94a3b8;
       line-height: 1.5;
     }
 
     /* ---------------------------------------------------- */
-    /* SLICE-STYLE FLOATING CAPSULE DOCK & SLIDING PILL      */
+    /* 4 SEPARATE FLOATING ROUND CIRCLE BUTTONS (SLICE STYLE) */
     /* ---------------------------------------------------- */
-    .slice-dock-wrapper {
+    .floating-circles-container {
       position: fixed;
       bottom: 28px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 9999;
-    }
-
-    .slice-dock {
-      position: relative;
-      display: flex;
-      align-items: center;
-      background: rgba(22, 22, 24, 0.90);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      padding: 5px;
-      border-radius: 40px;
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
-    }
-
-    /* Fluid Sliding Highlight Pill */
-    .active-indicator {
-      position: absolute;
-      top: 5px;
-      bottom: 5px;
-      left: 0;
-      width: 60px;
-      background: rgba(255, 255, 255, 0.12); /* Subtle pill highlight */
-      border-radius: 32px;
-      transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), width 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
-      z-index: 1;
-    }
-
-    /* Tab Buttons */
-    .nav-item {
-      position: relative;
-      z-index: 2;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 10px 18px;
-      border-radius: 32px;
-      border: none;
-      background: transparent;
-      color: #71717a; /* Muted inactive text */
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: color 0.3s ease, transform 0.15s ease;
-      user-select: none;
-      white-space: nowrap;
+      gap: 14px; /* Space between the floating circles */
+      z-index: 9999;
     }
 
-    .nav-item svg {
-      width: 20px;
-      height: 20px;
-      stroke: #71717a; /* Muted soft icon */
+    /* Inactive Circle Buttons */
+    .nav-circle {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%; /* Perfect Circle */
+      background: #1c1c1e; /* Dark soft gray circle */
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #71717a; /* Soft muted gray icon */
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-circle svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
       stroke-width: 2;
       stroke-linecap: round;
       stroke-linejoin: round;
       fill: none;
-      transition: stroke 0.3s ease, transform 0.2s ease;
+      transition: transform 0.3s ease, stroke 0.3s ease;
     }
 
-    /* Active Tab - Soft White Accent */
-    .nav-item.active {
+    /* ACTIVE ENLARGED CIRCLE (Just like in the screenshot) */
+    .nav-circle.active {
+      width: 68px; /* Larger circular size */
+      height: 68px;
+      background: #2c2c2e; /* Lighter soft dark gray highlight */
       color: #e2e8f0; /* Soft White */
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
     }
 
-    .nav-item.active svg {
-      stroke: #e2e8f0; /* Soft White Icon */
-      transform: scale(1.05);
+    .nav-circle.active svg {
+      width: 28px;
+      height: 28px;
+      stroke: #e2e8f0; /* Soft white icon */
+      stroke-width: 2.2;
     }
 
-    .nav-item:active {
-      transform: scale(0.94);
+    .nav-circle:active {
+      transform: scale(0.92);
     }
   </style>
 </head>
 <body>
 
-  <!-- Clean Borderless Header -->
+  <!-- Header -->
   <header>
     <h1>Minsathya</h1>
-    <p>Live app updates in real-time</p>
+    <p>Live app updates</p>
   </header>
 
-  <!-- Content Sections -->
+  <!-- Page Sections -->
   <main class="content-container">
     <div id="home" class="tab-content active">
       <div class="card">
-        <h3>Home Feed</h3>
-        <p>Welcome to Minsathya. Clean layout set to #0b0b0b with soft white accents and borderless transitions.</p>
+        <h3>Home</h3>
+        <p>Welcome to Minsathya!</p>
       </div>
     </div>
 
-    <div id="articles" class="tab-content">
+    <div id="scan" class="tab-content">
       <div class="card">
-        <h3>Articles</h3>
-        <p>Read all your latest updates and posts here.</p>
+        <h3>Scan / Quick Action</h3>
+        <p>Main action view triggered from the larger center circle button.</p>
       </div>
     </div>
 
     <div id="updates" class="tab-content">
       <div class="card">
         <h3>Updates</h3>
-        <p>Instant news and daily updates delivered straight to your feed.</p>
+        <p>Check your latest notifications and updates here.</p>
       </div>
     </div>
 
     <div id="profile" class="tab-content">
       <div class="card">
         <h3>Profile</h3>
-        <p>Manage your account settings and customization options.</p>
+        <p>Manage your account settings.</p>
       </div>
     </div>
   </main>
 
-  <!-- Floating Slice Capsule Navigation Dock -->
-  <div class="slice-dock-wrapper">
-    <nav class="slice-dock" id="sliceDock">
-      <!-- Sliding Highlight Pill Indicator -->
-      <div class="active-indicator" id="indicator"></div>
+  <!-- 4 Standalone Floating Round Circle Buttons -->
+  <nav class="floating-circles-container">
+    
+    <!-- Circle 1: Home -->
+    <button class="nav-circle active" onclick="switchTab(this, 'home')">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    </button>
 
-      <button class="nav-item active" onclick="switchTab(this, 'home')">
-        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-        <span>Home</span>
-      </button>
+    <!-- Circle 2: Scan / Center Action -->
+    <button class="nav-circle" onclick="switchTab(this, 'scan')">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" ry="5"></rect><rect x="9" y="9" width="6" height="6" rx="1.5"></rect></svg>
+    </button>
 
-      <button class="nav-item" onclick="switchTab(this, 'articles')">
-        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-        <span>Articles</span>
-      </button>
+    <!-- Circle 3: Updates -->
+    <button class="nav-circle" onclick="switchTab(this, 'updates')">
+      <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+    </button>
 
-      <button class="nav-item" onclick="switchTab(this, 'updates')">
-        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-        <span>Updates</span>
-      </button>
+    <!-- Circle 4: Profile -->
+    <button class="nav-circle" onclick="switchTab(this, 'profile')">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+    </button>
 
-      <button class="nav-item" onclick="switchTab(this, 'profile')">
-        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-        <span>Profile</span>
-      </button>
-    </nav>
-  </div>
+  </nav>
 
   <script>
-    function updateIndicator(activeBtn) {
-      const indicator = document.getElementById('indicator');
-      const dock = document.getElementById('sliceDock');
-      
-      const btnRect = activeBtn.getBoundingClientRect();
-      const dockRect = dock.getBoundingClientRect();
-
-      // Calculate smooth relative sliding offset
-      const leftOffset = btnRect.left - dockRect.left;
-      
-      indicator.style.width = `${btnRect.width}px`;
-      indicator.style.transform = `translateX(${leftOffset}px)`;
-    }
-
     function switchTab(button, tabId) {
-      // Toggle tab classes
-      document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+      // 1. Remove active state from all circles
+      document.querySelectorAll('.nav-circle').forEach(btn => btn.classList.remove('active'));
+      
+      // 2. Expand clicked circle
       button.classList.add('active');
 
-      // Slide indicator pill
-      updateIndicator(button);
-
-      // Change visible section
+      // 3. Switch active content page
       document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
     }
-
-    // Set initial active indicator position
-    window.addEventListener('DOMContentLoaded', () => {
-      const initialActive = document.querySelector('.nav-item.active');
-      if (initialActive) {
-        updateIndicator(initialActive);
-      }
-    });
-
-    // Adjust position smoothly if screen resizes
-    window.addEventListener('resize', () => {
-      const currentActive = document.querySelector('.nav-item.active');
-      if (currentActive) {
-        updateIndicator(currentActive);
-      }
-    });
   </script>
 
 </body>
