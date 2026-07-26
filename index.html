@@ -15,7 +15,7 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: #0b0b0b; /* Dark background */
+      background-color: #0b0b0b; /* Dark theme */
       color: #e2e8f0; /* Soft white */
       min-height: 100vh;
       display: flex;
@@ -46,7 +46,7 @@
       margin-top: 4px;
     }
 
-    /* Horizontal Page Swiping Container */
+    /* Content Area with Fluid Cross-Fade Capabilities */
     .content-slider {
       display: flex;
       width: 100vw;
@@ -57,6 +57,12 @@
       -webkit-overflow-scrolling: touch;
       padding-bottom: 120px;
       scrollbar-width: none;
+      transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 1;
+    }
+
+    .content-slider.fade-out {
+      opacity: 0;
     }
 
     .content-slider::-webkit-scrollbar {
@@ -109,7 +115,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      pointer-events: none; /* Let clicks pass through background */
+      pointer-events: none;
       z-index: 9999;
       overflow: visible;
     }
@@ -121,8 +127,6 @@
       justify-content: center;
       gap: 16px;
       pointer-events: auto;
-      
-      /* Smooth fluid sliding track transition */
       transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
       will-change: transform;
     }
@@ -137,7 +141,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #71717a; /* Muted gray icon */
+      color: #71717a;
       cursor: pointer;
       flex-shrink: 0;
 
@@ -171,8 +175,8 @@
     .nav-circle.active {
       width: 68px;
       height: 68px;
-      background: #2c2c2e; /* Soft lighter highlight circle */
-      color: #e2e8f0; /* Soft White */
+      background: #2c2c2e;
+      color: #e2e8f0;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
     }
 
@@ -193,23 +197,23 @@
   <!-- Header -->
   <header>
     <h1>Minsathya</h1>
-    <p>Swipe pages or tap navigation icons</p>
+    <p>Smart Jump Navigation</p>
   </header>
 
-  <!-- Horizontal Page Slider -->
+  <!-- Content Container -->
   <main class="content-slider" id="contentSlider">
     
     <div id="page-0" class="tab-content">
       <div class="card">
         <h3>Home Page</h3>
-        <p>The Home button is centered at the bottom of the screen. Tap Search or Profile to see the navigation track smoothly slide into place!</p>
+        <p>Try tapping Profile (the last icon). The app skips intermediate pages smoothly with a cross-fade while the bottom buttons slide across!</p>
       </div>
     </div>
 
     <div id="page-1" class="tab-content">
       <div class="card">
         <h3>Search</h3>
-        <p>The Search button is now locked directly in the middle at the bottom while Home shifts to its left.</p>
+        <p>Adjacent taps (like Home to Search) keep a natural sliding motion.</p>
       </div>
     </div>
 
@@ -223,32 +227,28 @@
     <div id="page-3" class="tab-content">
       <div class="card">
         <h3>User Profile</h3>
-        <p>The Profile button has smoothly slid to the center, pushing all previous buttons to the left!</p>
+        <p>You jumped straight to Profile without seeing the middle pages flash by!</p>
       </div>
     </div>
 
   </main>
 
-  <!-- Dynamically Centered Floating Track -->
+  <!-- Dynamic Floating Navigation Track -->
   <div class="floating-nav-wrapper">
     <nav class="nav-track" id="navTrack">
       
-      <!-- Button 0: Home -->
       <button class="nav-circle active" data-index="0" onclick="navigateToPage(0)">
         <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
       </button>
 
-      <!-- Button 1: Search -->
       <button class="nav-circle" data-index="1" onclick="navigateToPage(1)">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" ry="5"></rect><rect x="9" y="9" width="6" height="6" rx="1.5"></rect></svg>
       </button>
 
-      <!-- Button 2: Updates -->
       <button class="nav-circle" data-index="2" onclick="navigateToPage(2)">
         <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
       </button>
 
-      <!-- Button 3: Profile -->
       <button class="nav-circle" data-index="3" onclick="navigateToPage(3)">
         <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
       </button>
@@ -260,61 +260,79 @@
     const slider = document.getElementById('contentSlider');
     const track = document.getElementById('navTrack');
     const buttons = document.querySelectorAll('.nav-circle');
+    
+    let currentIndex = 0;
     let isClickScrolling = false;
 
-    // Smoothly update active state and center the active button on screen
+    // Recalculates track position to keep active button centered
     function updateActiveButton(index) {
       buttons.forEach((btn, i) => {
-        if (i === index) {
-          btn.classList.add('active');
-        } else {
-          btn.classList.remove('active');
-        }
+        btn.classList.toggle('active', i === index);
       });
 
-      // Recalculate track position so active button lands exactly in screen center
       const activeBtn = buttons[index];
       const trackCenter = track.offsetWidth / 2;
       const activeBtnCenter = activeBtn.offsetLeft + (activeBtn.offsetWidth / 2);
       const shiftX = trackCenter - activeBtnCenter;
 
       track.style.transform = `translateX(${shiftX}px)`;
+      currentIndex = index;
     }
 
-    // Triggered when a button is tapped
-    function navigateToPage(index) {
+    // Smart Jump Logic
+    function navigateToPage(targetIndex) {
+      if (targetIndex === currentIndex) return;
+
       isClickScrolling = true;
-      updateActiveButton(index);
+      const distance = Math.abs(targetIndex - currentIndex);
+      const targetPage = document.getElementById(`page-${targetIndex}`);
 
-      const targetPage = document.getElementById(`page-${index}`);
-      slider.scrollTo({
-        left: targetPage.offsetLeft,
-        behavior: 'smooth'
-      });
+      // Smooth track animation always plays
+      updateActiveButton(targetIndex);
 
-      setTimeout(() => { isClickScrolling = false; }, 500);
+      if (distance > 1) {
+        // SMART JUMP: Cross-fade to hide fast-forward scrolling
+        slider.classList.add('fade-out');
+
+        setTimeout(() => {
+          slider.style.scrollBehavior = 'auto'; // Disable smooth scroll briefly
+          slider.scrollLeft = targetPage.offsetLeft;
+          slider.style.scrollBehavior = 'smooth';
+          slider.classList.remove('fade-out');
+
+          setTimeout(() => { isClickScrolling = false; }, 200);
+        }, 180);
+
+      } else {
+        // ADJACENT NAVIGATION: Natural slide scroll
+        slider.scrollTo({
+          left: targetPage.offsetLeft,
+          behavior: 'smooth'
+        });
+
+        setTimeout(() => { isClickScrolling = false; }, 450);
+      }
     }
 
-    // Sync button track slider while swiping pages horizontally
+    // Horizontal finger swipe listener
     slider.addEventListener('scroll', () => {
       if (isClickScrolling) return;
 
       const pageWidth = window.innerWidth;
       const activeIndex = Math.round(slider.scrollLeft / pageWidth);
-      updateActiveButton(activeIndex);
+      
+      if (activeIndex !== currentIndex) {
+        updateActiveButton(activeIndex);
+      }
     });
 
-    // Initialize track centering on page load
+    // Initialize track positioning on startup
     window.addEventListener('DOMContentLoaded', () => {
       updateActiveButton(0);
     });
 
     window.addEventListener('resize', () => {
-      const activeBtn = document.querySelector('.nav-circle.active');
-      if (activeBtn) {
-        const activeIndex = parseInt(activeBtn.getAttribute('data-index'), 10);
-        updateActiveButton(activeIndex);
-      }
+      updateActiveButton(currentIndex);
     });
   </script>
 
