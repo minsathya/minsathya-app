@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Minsathya</title>
   <style>
-    /* Base Reset & Styling */
+    /* Base Reset & Theme Setup */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -15,8 +15,8 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-      color: #ffffff;
+      background-color: #0b0b0b; /* Requested main background */
+      color: #e2e8f0; /* Soft White */
       min-height: 100vh;
       padding-bottom: 120px;
       display: flex;
@@ -24,38 +24,38 @@
       align-items: center;
     }
 
-    /* Header */
+    /* Clean Header - Completely Borderless */
     header {
       width: 100%;
-      padding: 50px 20px 20px;
+      padding: 48px 24px 16px;
       text-align: center;
-      background: rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: #0b0b0b;
+      border: none; /* No separating lines */
     }
 
     header h1 {
       font-size: 26px;
       font-weight: 700;
-      letter-spacing: 0.5px;
+      color: #e2e8f0; /* Soft white */
+      letter-spacing: -0.3px;
     }
 
     header p {
       font-size: 14px;
-      color: #94a3b8;
-      margin-top: 4px;
+      color: #8a8f99; /* Soft muted gray */
+      margin-top: 6px;
     }
 
     /* Content Area */
     .content-container {
       width: 100%;
       max-width: 500px;
-      padding: 24px 20px;
+      padding: 16px 20px;
     }
 
     .tab-content {
       display: none;
-      animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: fadeIn 0.3s ease;
     }
 
     .tab-content.active {
@@ -63,212 +63,226 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
+      from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(12px);
+      background: #151515;
       border-radius: 20px;
-      padding: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      padding: 22px;
+      margin-bottom: 16px;
+      border: none;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
     .card h3 {
-      font-size: 20px;
-      margin-bottom: 10px;
-      color: #38bdf8;
+      font-size: 18px;
+      color: #e2e8f0; /* Soft white */
+      margin-bottom: 8px;
+      font-weight: 600;
     }
 
     .card p {
-      font-size: 15px;
-      color: #cbd5e1;
-      line-height: 1.6;
-    }
-
-    /* Search Box styling inside Search Tab */
-    .search-input {
-      width: 100%;
-      padding: 14px 18px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      background: rgba(0, 0, 0, 0.2);
-      color: #ffffff;
-      font-size: 15px;
-      margin-top: 12px;
-      outline: none;
+      font-size: 14px;
+      color: #94a3b8; /* Soft muted text */
+      line-height: 1.5;
     }
 
     /* ---------------------------------------------------- */
-    /* SEPARATE 3D FLOATING CIRCLE / PILL NAVIGATION BAR   */
+    /* SLICE-STYLE FLOATING CAPSULE DOCK & SLIDING PILL      */
     /* ---------------------------------------------------- */
-    .floating-nav {
+    .slice-dock-wrapper {
       position: fixed;
       bottom: 28px;
       left: 50%;
       transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: 12px; /* Spacing between independent circles */
       z-index: 9999;
-      padding: 0 10px;
     }
 
-    /* Individual Circular/Pill Button */
-    .nav-pill {
+    .slice-dock {
+      position: relative;
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      background: rgba(22, 22, 24, 0.90);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 5px;
+      border-radius: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Fluid Sliding Highlight Pill */
+    .active-indicator {
+      position: absolute;
+      top: 5px;
+      bottom: 5px;
+      left: 0;
+      width: 60px;
+      background: rgba(255, 255, 255, 0.12); /* Subtle pill highlight */
+      border-radius: 32px;
+      transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), width 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      z-index: 1;
+    }
+
+    /* Tab Buttons */
+    .nav-item {
+      position: relative;
+      z-index: 2;
+      display: flex;
       align-items: center;
       justify-content: center;
-      width: 68px;
-      height: 68px;
-      border-radius: 50%; /* Circle shape */
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: rgba(18, 20, 29, 0.55); /* Dimmed background */
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      color: #94a3b8;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 32px;
+      border: none;
+      background: transparent;
+      color: #71717a; /* Muted inactive text */
+      font-size: 13px;
+      font-weight: 600;
       cursor: pointer;
-      opacity: 0.55; /* Dimmed state for non-active buttons */
-      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+      transition: color 0.3s ease, transform 0.15s ease;
+      user-select: none;
+      white-space: nowrap;
     }
 
-    .nav-pill svg {
-      width: 22px;
-      height: 22px;
-      stroke: currentColor;
+    .nav-item svg {
+      width: 20px;
+      height: 20px;
+      stroke: #71717a; /* Muted soft icon */
       stroke-width: 2;
       stroke-linecap: round;
       stroke-linejoin: round;
       fill: none;
-      transition: transform 0.3s ease;
+      transition: stroke 0.3s ease, transform 0.2s ease;
     }
 
-    .nav-pill span {
-      font-size: 10px;
-      font-weight: 600;
-      margin-top: 3px;
-      letter-spacing: 0.3px;
+    /* Active Tab - Soft White Accent */
+    .nav-item.active {
+      color: #e2e8f0; /* Soft White */
     }
 
-    /* 3D POPPING ACTIVE FACE STATE */
-    .nav-pill.active {
-      opacity: 1; /* Fully visible */
-      transform: translateY(-12px) scale(1.12); /* Elevates forward in 3D */
-      border-radius: 28px; /* Smooth elongated pill */
-      width: 74px;
-      height: 74px;
-      background: linear-gradient(145deg, #6366f1, #4f46e5); /* Vibrant gradient */
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      
-      /* 3D Depth Shadow & Inner Lighting Effect */
-      box-shadow: 
-        0 16px 32px -4px rgba(99, 102, 241, 0.6),
-        0 8px 16px -2px rgba(0, 0, 0, 0.4),
-        inset 0 2px 3px rgba(255, 255, 255, 0.6), /* Top 3D highlight */
-        inset 0 -3px 4px rgba(0, 0, 0, 0.3);      /* Bottom 3D shadow */
+    .nav-item.active svg {
+      stroke: #e2e8f0; /* Soft White Icon */
+      transform: scale(1.05);
     }
 
-    .nav-pill.active svg {
-      transform: scale(1.15);
-      stroke-width: 2.4;
-    }
-
-    .nav-pill:active {
-      transform: scale(0.92);
+    .nav-item:active {
+      transform: scale(0.94);
     }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- Clean Borderless Header -->
   <header>
     <h1>Minsathya</h1>
-    <p>Live App Experience</p>
+    <p>Live app updates in real-time</p>
   </header>
 
-  <!-- Page Sections -->
+  <!-- Content Sections -->
   <main class="content-container">
-    
-    <!-- Home Tab -->
     <div id="home" class="tab-content active">
       <div class="card">
         <h3>Home Feed</h3>
-        <p>Welcome to your feed. The 3D active pill pops out forward while the inactive pills remain dimmed in the background!</p>
+        <p>Welcome to Minsathya. Clean layout set to #0b0b0b with soft white accents and borderless transitions.</p>
       </div>
     </div>
 
-    <!-- Search Tab -->
-    <div id="search" class="tab-content">
+    <div id="articles" class="tab-content">
       <div class="card">
-        <h3>Search</h3>
-        <p>Find articles, news, and updates quickly.</p>
-        <input type="text" class="search-input" placeholder="Type here to search..." />
+        <h3>Articles</h3>
+        <p>Read all your latest updates and posts here.</p>
       </div>
     </div>
 
-    <!-- Updates Tab -->
     <div id="updates" class="tab-content">
       <div class="card">
-        <h3>Live Updates</h3>
-        <p>Stay updated with instant real-time notifications and announcements.</p>
+        <h3>Updates</h3>
+        <p>Instant news and daily updates delivered straight to your feed.</p>
       </div>
     </div>
 
-    <!-- Profile Tab -->
     <div id="profile" class="tab-content">
       <div class="card">
-        <h3>User Profile</h3>
-        <p>Manage your settings, personal preferences, and account info here.</p>
+        <h3>Profile</h3>
+        <p>Manage your account settings and customization options.</p>
       </div>
     </div>
-
   </main>
 
-  <!-- 4 SEPARATE 3D FLOATING CIRCLE PILLS -->
-  <nav class="floating-nav">
-    
-    <!-- 1. Home -->
-    <button class="nav-pill active" onclick="switchTab(this, 'home')">
-      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-      <span>Home</span>
-    </button>
+  <!-- Floating Slice Capsule Navigation Dock -->
+  <div class="slice-dock-wrapper">
+    <nav class="slice-dock" id="sliceDock">
+      <!-- Sliding Highlight Pill Indicator -->
+      <div class="active-indicator" id="indicator"></div>
 
-    <!-- 2. Search -->
-    <button class="nav-pill" onclick="switchTab(this, 'search')">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      <span>Search</span>
-    </button>
+      <button class="nav-item active" onclick="switchTab(this, 'home')">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        <span>Home</span>
+      </button>
 
-    <!-- 3. Updates -->
-    <button class="nav-pill" onclick="switchTab(this, 'updates')">
-      <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-      <span>Updates</span>
-    </button>
+      <button class="nav-item" onclick="switchTab(this, 'articles')">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+        <span>Articles</span>
+      </button>
 
-    <!-- 4. Profile -->
-    <button class="nav-pill" onclick="switchTab(this, 'profile')">
-      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-      <span>Profile</span>
-    </button>
+      <button class="nav-item" onclick="switchTab(this, 'updates')">
+        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <span>Updates</span>
+      </button>
 
-  </nav>
+      <button class="nav-item" onclick="switchTab(this, 'profile')">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <span>Profile</span>
+      </button>
+    </nav>
+  </div>
 
-  <!-- Tab Switcher Script -->
   <script>
+    function updateIndicator(activeBtn) {
+      const indicator = document.getElementById('indicator');
+      const dock = document.getElementById('sliceDock');
+      
+      const btnRect = activeBtn.getBoundingClientRect();
+      const dockRect = dock.getBoundingClientRect();
+
+      // Calculate smooth relative sliding offset
+      const leftOffset = btnRect.left - dockRect.left;
+      
+      indicator.style.width = `${btnRect.width}px`;
+      indicator.style.transform = `translateX(${leftOffset}px)`;
+    }
+
     function switchTab(button, tabId) {
-      // 1. Set 3D active state on clicked pill
-      document.querySelectorAll('.nav-pill').forEach(pill => pill.classList.remove('active'));
+      // Toggle tab classes
+      document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
       button.classList.add('active');
 
-      // 2. Show corresponding page section
+      // Slide indicator pill
+      updateIndicator(button);
+
+      // Change visible section
       document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
     }
+
+    // Set initial active indicator position
+    window.addEventListener('DOMContentLoaded', () => {
+      const initialActive = document.querySelector('.nav-item.active');
+      if (initialActive) {
+        updateIndicator(initialActive);
+      }
+    });
+
+    // Adjust position smoothly if screen resizes
+    window.addEventListener('resize', () => {
+      const currentActive = document.querySelector('.nav-item.active');
+      if (currentActive) {
+        updateIndicator(currentActive);
+      }
+    });
   </script>
 
 </body>
