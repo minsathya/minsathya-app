@@ -2,7 +2,7 @@
   "appId": "com.minsathya.app",
   "appName": "minsathya",
   "webDir": "www",
-  "backgroundColor": "#0b0b0b",
+  "backgroundColor": "#1a231e",
   "server": {
     "url": "https://minsathya-app.vercel.app",
     "cleartext": true,
