@@ -23,21 +23,10 @@
       gtag('config', 'G-5VGX2K64Y4');
     </script>
     
-    <!-- Favicon Engine -->
-    <link id="favicon" rel="icon" type="image/png" href="favicon-light.png">
+    <!-- Favicon & App Icon Engine -->
+    <link id="favicon" rel="icon" type="image/png" href="app-icon.png">
+    <link rel="apple-touch-icon" href="app-icon.png">
 
-    <script>
-      const favicon = document.getElementById('favicon');
-      const darkMode = window.matchMedia('(prefers-color-scheme: dark)');
-      
-      function updateFavicon(e) {
-        favicon.href = e.matches ? 'favicon-dark.png' : 'favicon-light.png';
-      }
-      
-      updateFavicon(darkMode);
-      darkMode.addEventListener('change', updateFavicon);
-    </script>
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -45,34 +34,47 @@
     <style>
         :root {
             --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
-            --bg-color: #0b0b0b;
+            
+            /* Deep Sage Palette (#1a231e) */
+            --bg-color: #1a231e;
             --text-main: #ffffff;
-            --text-muted: #666666;
-            --panel-bg: #121212;
-            --panel-border: #222222;
+            --text-muted: #8a9a90;
+            --panel-bg: #111814;
+            --panel-border: #222f28;
             
             /* 3D Workspace Container Variables */
-            --myspace-bg: #141414;
-            --myspace-border: #242424;
-            --myspace-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-            --card-shadow-hover: 0 16px 36px rgba(0, 0, 0, 0.45);
-            --card-border-hover: #383838;
+            --myspace-bg: #141d18;
+            --myspace-border: #24332b;
+            --myspace-shadow: 0 20px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            --card-shadow-hover: 0 16px 36px rgba(0, 0, 0, 0.5);
+            --card-border-hover: #34483d;
+
+            /* Navigation Bar Colors */
+            --nav-circle-bg: #222e28;
+            --nav-circle-active-bg: #2e3d35;
+            --nav-icon-inactive: #8a9a90;
+            --nav-icon-active: #ffffff;
         }
 
         body.light-mode {
-            --bg-color: #ebebe4;
+            --bg-color: #e9ebe6;
             --text-main: #111111;
-            --text-muted: #88888e;
+            --text-muted: #626c66;
             --panel-bg: #ffffff;
-            --panel-border: #e2e2e7;
+            --panel-border: #d4d8cf;
             
-            --myspace-bg: #f5f5f0;
-            --myspace-border: #dcdce0;
+            --myspace-bg: #f3f5f1;
+            --myspace-border: #d2d7cd;
             --myspace-shadow: 0 20px 45px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8);
             --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
             --card-shadow-hover: 0 16px 32px rgba(0, 0, 0, 0.09);
-            --card-border-hover: #b8b8c0;
+            --card-border-hover: #b4bcaf;
+
+            --nav-circle-bg: #dbe0d7;
+            --nav-circle-active-bg: #ffffff;
+            --nav-icon-inactive: #626c66;
+            --nav-icon-active: #111111;
         }
 
         * {
@@ -107,7 +109,7 @@
             scroll-snap-type: x mandatory;
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: 120px; /* Space for bottom floating circles */
+            padding-bottom: 120px;
             scrollbar-width: none;
             transition: opacity 0.18s var(--ease-smooth);
             opacity: 1;
@@ -131,7 +133,7 @@
             box-sizing: border-box;
             display: flex;
             justify-content: center;
-            align-items: center; /* PERFECT CENTERING */
+            align-items: center;
         }
 
         /* ---------------------------------------------------- */
@@ -139,10 +141,10 @@
         /* ---------------------------------------------------- */
         .myspace-container {
             width: 100%;
-            max-width: 360px; /* Vertical Pill Width */
+            max-width: 360px;
             background-color: var(--myspace-bg);
             border: 1px solid var(--myspace-border);
-            border-radius: 38px; /* Vertical Pill Curves */
+            border-radius: 38px;
             padding: 32px 24px;
             box-shadow: var(--myspace-shadow);
             transition: background-color 0.8s var(--ease-smooth), border-color 0.8s var(--ease-smooth), box-shadow 0.8s var(--ease-smooth);
@@ -150,7 +152,7 @@
 
         /* TOP LEFT CORNER TITLE */
         .myspace-title {
-            text-align: left; /* Top Left Corner */
+            text-align: left;
             font-size: 20px;
             font-weight: 600;
             letter-spacing: -0.3px;
@@ -163,7 +165,7 @@
         /* STACKED ONE-DOWN-ONE GRID */
         .myspace-grid {
             display: flex;
-            flex-direction: column; /* Vertical Stack */
+            flex-direction: column;
             justify-content: flex-start;
             align-items: center;
             gap: 16px;
@@ -176,11 +178,11 @@
             max-width: 100%;
             background-color: var(--panel-bg);
             border: 1px solid var(--panel-border);
-            border-radius: 26px; /* Inner Capsule Shape */
+            border-radius: 26px;
             padding: 16px 20px;
             display: flex;
-            flex-direction: row; /* Left-to-right layout */
-            align-items: center;
+            flex-direction: row;
+            align-items: center; /* Strict vertical center alignment */
             justify-content: flex-start;
             gap: 18px;
             text-decoration: none !important;
@@ -209,11 +211,17 @@
             transition: transform 0.55s var(--ease-smooth);
         }
 
+        /* STRICT BASELINE CENTERING FIX FOR TEXT */
         .myspace-card-title {
             font-size: 16px;
             font-weight: 500;
             color: var(--text-main);
             letter-spacing: -0.2px;
+            line-height: 1; /* Reset height box to lock baseline alignment */
+            display: flex;
+            align-items: center;
+            margin: 0;
+            padding: 0;
             transition: color 0.8s var(--ease-smooth);
         }
 
@@ -272,55 +280,76 @@
             width: 52px;
             height: 52px;
             border-radius: 50%;
-            background: #1c1c1e;
+            background: var(--nav-circle-bg);
             border: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #71717a;
             cursor: pointer;
             flex-shrink: 0;
 
-            /* Fluid morphing transitions */
             transition: 
                 width 0.45s var(--ease-smooth),
                 height 0.45s var(--ease-smooth),
                 background-color 0.45s var(--ease-smooth),
-                color 0.45s var(--ease-smooth),
                 box-shadow 0.45s var(--ease-smooth),
                 transform 0.2s ease;
 
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
         }
 
-        .nav-circle svg {
+        /* CSS MASKING FOR CUSTOM PNG NAVIGATION ICONS */
+        .nav-icon {
             width: 22px;
             height: 22px;
-            stroke: currentColor;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            fill: none;
+            display: inline-block;
+            background-color: var(--nav-icon-inactive);
+            
+            -webkit-mask-size: contain;
+            mask-size: contain;
+            -webkit-mask-position: center;
+            mask-position: center;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+
             transition: 
                 width 0.45s var(--ease-smooth),
                 height 0.45s var(--ease-smooth),
-                stroke 0.45s var(--ease-smooth);
+                background-color 0.45s var(--ease-smooth);
+        }
+
+        .nav-icon-home {
+            -webkit-mask-image: url('home.png');
+            mask-image: url('home.png');
+        }
+
+        .nav-icon-search {
+            -webkit-mask-image: url('search.png');
+            mask-image: url('search.png');
+        }
+
+        .nav-icon-bell {
+            -webkit-mask-image: url('bell.png');
+            mask-image: url('bell.png');
+        }
+
+        .nav-icon-avatar {
+            -webkit-mask-image: url('avatar.png');
+            mask-image: url('avatar.png');
         }
 
         /* Active Centered Enlarged Circle */
         .nav-circle.active {
             width: 68px;
             height: 68px;
-            background: #2c2c2e;
-            color: #e2e8f0;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            background: var(--nav-circle-active-bg);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
         }
 
-        .nav-circle.active svg {
-            width: 28px;
-            height: 28px;
-            stroke: #e2e8f0;
-            stroke-width: 2.2;
+        .nav-circle.active .nav-icon {
+            width: 26px;
+            height: 26px;
+            background-color: var(--nav-icon-active);
         }
 
         .nav-circle:active {
@@ -423,20 +452,24 @@
     <div class="floating-nav-wrapper">
         <nav class="nav-track" id="navTrack">
             
-            <button class="nav-circle active" data-index="0" onclick="navigateToPage(0)">
-                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <!-- Button 0: Home -->
+            <button class="nav-circle active" data-index="0" onclick="navigateToPage(0)" aria-label="Home Workspace">
+                <span class="nav-icon nav-icon-home"></span>
             </button>
 
-            <button class="nav-circle" data-index="1" onclick="navigateToPage(1)">
-                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" ry="5"></rect><rect x="9" y="9" width="6" height="6" rx="1.5"></rect></svg>
+            <!-- Button 1: Search -->
+            <button class="nav-circle" data-index="1" onclick="navigateToPage(1)" aria-label="Search">
+                <span class="nav-icon nav-icon-search"></span>
             </button>
 
-            <button class="nav-circle" data-index="2" onclick="navigateToPage(2)">
-                <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            <!-- Button 2: Updates (Bell) -->
+            <button class="nav-circle" data-index="2" onclick="navigateToPage(2)" aria-label="Notifications and Updates">
+                <span class="nav-icon nav-icon-bell"></span>
             </button>
 
-            <button class="nav-circle" data-index="3" onclick="navigateToPage(3)">
-                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <!-- Button 3: Profile (Avatar) -->
+            <button class="nav-circle" data-index="3" onclick="navigateToPage(3)" aria-label="User Profile">
+                <span class="nav-icon nav-icon-avatar"></span>
             </button>
 
         </nav>
