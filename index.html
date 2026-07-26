@@ -98,34 +98,6 @@
         }
 
         /* ---------------------------------------------------- */
-        /* 500ms APP ICON SPLASH SCREEN                         */
-        /* ---------------------------------------------------- */
-        #splashScreen {
-            position: fixed;
-            inset: 0;
-            background-color: #0b0b0b;
-            z-index: 99999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.3s var(--ease-smooth), visibility 0.3s var(--ease-smooth);
-        }
-
-        #splashScreen.hide {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .splash-logo {
-            width: 88px;
-            height: 88px;
-            border-radius: 22px;
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
-            object-fit: cover;
-        }
-
-        /* ---------------------------------------------------- */
         /* HORIZONTAL SLIDER CONTAINER                          */
         /* ---------------------------------------------------- */
         .content-slider {
@@ -396,11 +368,6 @@
 </head>
 <body>
 
-    <!-- Startup 500ms App Icon Splash Overlay -->
-    <div id="splashScreen">
-        <img src="app-icon.png" alt="App Icon" class="splash-logo">
-    </div>
-
     <!-- Main Horizontal Page Slider -->
     <main class="content-slider" id="contentSlider">
         
@@ -508,14 +475,6 @@
     </div>
 
     <script>
-        // 500ms Splash Screen Handler
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                const splash = document.getElementById('splashScreen');
-                if (splash) splash.classList.add('hide');
-            }, 500);
-        });
-
         const slider = document.getElementById('contentSlider');
         const track = document.getElementById('navTrack');
         const buttons = document.querySelectorAll('.nav-circle');
