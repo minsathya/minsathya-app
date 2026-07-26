@@ -6,12 +6,12 @@
     <title>sathya.</title>
 
     <style>
-  html, body {
-    background-color: #1a231e !important;
-    margin: 0;
-    padding: 0;
-  }
-</style>
+      html, body {
+        background-color: #0b0b0b !important;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
     
     <!-- Universal iPad stabilization -->
     <script>
@@ -43,7 +43,7 @@
         :root {
             --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
             
-            /* Main App Background remains strict #0b0b0b */
+            /* Main App Background strict #0b0b0b */
             --bg-color: #0b0b0b;
             --text-main: #ffffff;
             --text-muted: #888888;
@@ -60,8 +60,8 @@
 
             /* Navigation Button Styling (#1a231e background, white icons) */
             --nav-circle-bg: #1a231e;
-            --nav-circle-active-bg: #2b3931;
-            --nav-icon-inactive: #8a9a90;
+            --nav-circle-active-bg: #1a231e;
+            --nav-icon-inactive: rgba(255, 255, 255, 0.65);
             --nav-icon-active: #ffffff;
         }
 
@@ -79,10 +79,10 @@
             --card-shadow-hover: 0 16px 32px rgba(0, 0, 0, 0.09);
             --card-border-hover: #b8b8c0;
 
-            --nav-circle-bg: #dce3dd;
-            --nav-circle-active-bg: #ffffff;
-            --nav-icon-inactive: #626c66;
-            --nav-icon-active: #111111;
+            --nav-circle-bg: #1a231e;
+            --nav-circle-active-bg: #1a231e;
+            --nav-icon-inactive: rgba(255, 255, 255, 0.65);
+            --nav-icon-active: #ffffff;
         }
 
         * {
@@ -228,7 +228,7 @@
             font-weight: 500;
             color: var(--text-main);
             letter-spacing: -0.2px;
-            line-height: 1;
+            line-height: 1.2;
             display: flex;
             align-items: center;
             margin: 0;
@@ -264,7 +264,7 @@
         /* ---------------------------------------------------- */
         .floating-nav-wrapper {
             position: fixed;
-            bottom: 20px;
+            bottom: max(20px, env(safe-area-inset-bottom, 20px));
             left: 0;
             width: 100vw;
             display: flex;
@@ -309,7 +309,7 @@
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
         }
 
-        /* MASKING FOR CUSTOM PNG NAVIGATION ICONS */
+        /* MASKING FOR CUSTOM PNG NAVIGATION ICONS FROM UPLOADS */
         .nav-icon {
             width: 22px;
             height: 22px;
@@ -330,23 +330,23 @@
         }
 
         .nav-icon-home {
-            -webkit-mask-image: url('home.png');
-            mask-image: url('home.png');
+            -webkit-mask-image: url('uploads/home.png');
+            mask-image: url('uploads/home.png');
         }
 
         .nav-icon-search {
-            -webkit-mask-image: url('search.png');
-            mask-image: url('search.png');
+            -webkit-mask-image: url('uploads/search.png');
+            mask-image: url('uploads/search.png');
         }
 
         .nav-icon-bell {
-            -webkit-mask-image: url('bell.png');
-            mask-image: url('bell.png');
+            -webkit-mask-image: url('uploads/bell.png');
+            mask-image: url('uploads/bell.png');
         }
 
         .nav-icon-avatar {
-            -webkit-mask-image: url('avatar.png');
-            mask-image: url('avatar.png');
+            -webkit-mask-image: url('uploads/avatar.png');
+            mask-image: url('uploads/avatar.png');
         }
 
         /* Active Centered Enlarged Circle */
@@ -481,6 +481,15 @@
 
         </nav>
     </div>
+
+    <!-- Capacitor Auto-Hide SplashScreen Listener -->
+    <script>
+      window.addEventListener('load', () => {
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.SplashScreen) {
+          window.Capacitor.Plugins.SplashScreen.hide();
+        }
+      });
+    </script>
 
     <script>
         const slider = document.getElementById('contentSlider');
