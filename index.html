@@ -23,7 +23,7 @@
       gtag('config', 'G-5VGX2K64Y4');
     </script>
     
-    <!-- Favicon & App Icon Engine -->
+    <!-- Favicon Engine -->
     <link id="favicon" rel="icon" type="image/png" href="app-icon.png">
     <link rel="apple-touch-icon" href="app-icon.png">
 
@@ -35,43 +35,43 @@
         :root {
             --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
             
-            /* Deep Sage Palette (#1a231e) */
-            --bg-color: #1a231e;
+            /* Main App Background remains strict #0b0b0b */
+            --bg-color: #0b0b0b;
             --text-main: #ffffff;
-            --text-muted: #8a9a90;
-            --panel-bg: #111814;
-            --panel-border: #222f28;
+            --text-muted: #888888;
+            --panel-bg: #121212;
+            --panel-border: #222222;
             
-            /* 3D Workspace Container Variables */
-            --myspace-bg: #141d18;
-            --myspace-border: #24332b;
-            --myspace-shadow: 0 20px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            /* 3D Workspace Vertical Pill Container */
+            --myspace-bg: #141414;
+            --myspace-border: #242424;
+            --myspace-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
             --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             --card-shadow-hover: 0 16px 36px rgba(0, 0, 0, 0.5);
-            --card-border-hover: #34483d;
+            --card-border-hover: #383838;
 
-            /* Navigation Bar Colors */
-            --nav-circle-bg: #222e28;
-            --nav-circle-active-bg: #2e3d35;
+            /* Navigation Button Styling (#1a231e background, white icons) */
+            --nav-circle-bg: #1a231e;
+            --nav-circle-active-bg: #2b3931;
             --nav-icon-inactive: #8a9a90;
             --nav-icon-active: #ffffff;
         }
 
         body.light-mode {
-            --bg-color: #e9ebe6;
+            --bg-color: #ebebe4;
             --text-main: #111111;
-            --text-muted: #626c66;
+            --text-muted: #666666;
             --panel-bg: #ffffff;
-            --panel-border: #d4d8cf;
+            --panel-border: #e2e2e7;
             
-            --myspace-bg: #f3f5f1;
-            --myspace-border: #d2d7cd;
-            --myspace-shadow: 0 20px 45px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            --myspace-bg: #f5f5f0;
+            --myspace-border: #dcdce0;
+            --myspace-shadow: 0 20px 45px rgba(0, 0, 0, 0.06);
             --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
             --card-shadow-hover: 0 16px 32px rgba(0, 0, 0, 0.09);
-            --card-border-hover: #b4bcaf;
+            --card-border-hover: #b8b8c0;
 
-            --nav-circle-bg: #dbe0d7;
+            --nav-circle-bg: #dce3dd;
             --nav-circle-active-bg: #ffffff;
             --nav-icon-inactive: #626c66;
             --nav-icon-active: #111111;
@@ -98,7 +98,35 @@
         }
 
         /* ---------------------------------------------------- */
-        /* HORIZONTAL SLIDER & SMART JUMP CONTAINER             */
+        /* 500ms APP ICON SPLASH SCREEN                         */
+        /* ---------------------------------------------------- */
+        #splashScreen {
+            position: fixed;
+            inset: 0;
+            background-color: #0b0b0b;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s var(--ease-smooth), visibility 0.3s var(--ease-smooth);
+        }
+
+        #splashScreen.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .splash-logo {
+            width: 88px;
+            height: 88px;
+            border-radius: 22px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+            object-fit: cover;
+        }
+
+        /* ---------------------------------------------------- */
+        /* HORIZONTAL SLIDER CONTAINER                          */
         /* ---------------------------------------------------- */
         .content-slider {
             display: flex;
@@ -109,7 +137,6 @@
             scroll-snap-type: x mandatory;
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: 120px;
             scrollbar-width: none;
             transition: opacity 0.18s var(--ease-smooth);
             opacity: 1;
@@ -126,28 +153,32 @@
         .tab-content {
             flex: 0 0 100vw;
             width: 100vw;
-            min-height: calc(100vh - 120px);
+            height: 100vh;
             scroll-snap-align: start;
             scroll-snap-stop: always;
-            padding: 24px;
+            padding: 16px 16px 0 16px;
             box-sizing: border-box;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* Aligns container from top down */
         }
 
         /* ---------------------------------------------------- */
-        /* VERTICAL PILL WORKSPACE CONTAINER                    */
+        /* VERTICAL PILL WORKSPACE (TOP TO BOTTOM EXTENSION)    */
         /* ---------------------------------------------------- */
         .myspace-container {
             width: 100%;
-            max-width: 360px;
+            max-width: 380px;
+            height: calc(100vh - 102px); /* Occupies top to bottom touching nav buttons */
             background-color: var(--myspace-bg);
             border: 1px solid var(--myspace-border);
             border-radius: 38px;
-            padding: 32px 24px;
+            padding: 28px 20px;
             box-shadow: var(--myspace-shadow);
-            transition: background-color 0.8s var(--ease-smooth), border-color 0.8s var(--ease-smooth), box-shadow 0.8s var(--ease-smooth);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            transition: background-color 0.8s var(--ease-smooth), border-color 0.8s var(--ease-smooth);
         }
 
         /* TOP LEFT CORNER TITLE */
@@ -182,7 +213,7 @@
             padding: 16px 20px;
             display: flex;
             flex-direction: row;
-            align-items: center; /* Strict vertical center alignment */
+            align-items: center; /* Strict baseline centering */
             justify-content: flex-start;
             gap: 18px;
             text-decoration: none !important;
@@ -217,7 +248,7 @@
             font-weight: 500;
             color: var(--text-main);
             letter-spacing: -0.2px;
-            line-height: 1; /* Reset height box to lock baseline alignment */
+            line-height: 1;
             display: flex;
             align-items: center;
             margin: 0;
@@ -253,7 +284,7 @@
         /* ---------------------------------------------------- */
         .floating-nav-wrapper {
             position: fixed;
-            bottom: 28px;
+            bottom: 20px;
             left: 0;
             width: 100vw;
             display: flex;
@@ -275,7 +306,7 @@
             will-change: transform;
         }
 
-        /* Inactive Circle Buttons */
+        /* Inactive Circle Buttons (#1a231e) */
         .nav-circle {
             width: 52px;
             height: 52px;
@@ -295,10 +326,10 @@
                 box-shadow 0.45s var(--ease-smooth),
                 transform 0.2s ease;
 
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
         }
 
-        /* CSS MASKING FOR CUSTOM PNG NAVIGATION ICONS */
+        /* MASKING FOR CUSTOM PNG NAVIGATION ICONS */
         .nav-icon {
             width: 22px;
             height: 22px;
@@ -343,13 +374,13 @@
             width: 68px;
             height: 68px;
             background: var(--nav-circle-active-bg);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
         }
 
         .nav-circle.active .nav-icon {
             width: 26px;
             height: 26px;
-            background-color: var(--nav-icon-active);
+            background-color: var(--nav-icon-active); /* Pure White */
         }
 
         .nav-circle:active {
@@ -357,13 +388,18 @@
         }
 
         @media (max-width: 700px) {
-            .myspace-container { padding: 28px 18px; border-radius: 32px; max-width: 320px; }
+            .myspace-container { padding: 24px 16px; border-radius: 32px; max-width: 100%; }
             .myspace-title { font-size: 18px; margin-bottom: 18px; }
             .myspace-card { padding: 14px 18px; border-radius: 22px; }
         }
     </style>
 </head>
 <body>
+
+    <!-- Startup 500ms App Icon Splash Overlay -->
+    <div id="splashScreen">
+        <img src="app-icon.png" alt="App Icon" class="splash-logo">
+    </div>
 
     <!-- Main Horizontal Page Slider -->
     <main class="content-slider" id="contentSlider">
@@ -448,26 +484,22 @@
 
     </main>
 
-    <!-- Standalone Floating Centered Navigation Buttons -->
+    <!-- Floating Centered Navigation Track -->
     <div class="floating-nav-wrapper">
         <nav class="nav-track" id="navTrack">
             
-            <!-- Button 0: Home -->
             <button class="nav-circle active" data-index="0" onclick="navigateToPage(0)" aria-label="Home Workspace">
                 <span class="nav-icon nav-icon-home"></span>
             </button>
 
-            <!-- Button 1: Search -->
             <button class="nav-circle" data-index="1" onclick="navigateToPage(1)" aria-label="Search">
                 <span class="nav-icon nav-icon-search"></span>
             </button>
 
-            <!-- Button 2: Updates (Bell) -->
             <button class="nav-circle" data-index="2" onclick="navigateToPage(2)" aria-label="Notifications and Updates">
                 <span class="nav-icon nav-icon-bell"></span>
             </button>
 
-            <!-- Button 3: Profile (Avatar) -->
             <button class="nav-circle" data-index="3" onclick="navigateToPage(3)" aria-label="User Profile">
                 <span class="nav-icon nav-icon-avatar"></span>
             </button>
@@ -476,6 +508,14 @@
     </div>
 
     <script>
+        // 500ms Splash Screen Handler
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splashScreen');
+                if (splash) splash.classList.add('hide');
+            }, 500);
+        });
+
         const slider = document.getElementById('contentSlider');
         const track = document.getElementById('navTrack');
         const buttons = document.querySelectorAll('.nav-circle');
@@ -509,7 +549,6 @@
             updateActiveButton(targetIndex);
 
             if (distance > 1) {
-                // SMART JUMP: Cross-fade to hide middle pages
                 slider.classList.add('fade-out');
 
                 setTimeout(() => {
@@ -522,7 +561,6 @@
                 }, 180);
 
             } else {
-                // ADJACENT NAVIGATION: Natural slide scroll
                 slider.scrollTo({
                     left: targetPage.offsetLeft,
                     behavior: 'smooth'
@@ -532,7 +570,7 @@
             }
         }
 
-        // Horizontal Finger Swipe Listener
+        // Horizontal Swipe Listener
         slider.addEventListener('scroll', () => {
             if (isClickScrolling) return;
 
@@ -555,7 +593,6 @@
             }, { passive: true });
         });
 
-        // Initialize centering on load and resize
         window.addEventListener('DOMContentLoaded', () => {
             updateActiveButton(0);
         });
