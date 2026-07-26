@@ -9,15 +9,15 @@
   },
   "plugins": {
     "SplashScreen": {
-      "launchShowDuration": 1500,
+      "launchShowDuration": 500,
       "launchAutoHide": true,
-      "backgroundColor": "#0b0b0b",
+      "backgroundColor": "#1a231e",
       "androidSplashResourceName": "splash",
       "androidScaleType": "CENTER_CROP",
       "showSpinner": false,
       "splashFullScreen": true,
       "splashImmersive": true,
-      "fadeOutDuration": 400
+      "fadeOutDuration": 200
     }
   }
 }
