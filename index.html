@@ -15,65 +15,76 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: #0b0b0b; /* Dark background */
-      color: #e2e8f0; /* Soft White */
+      background-color: #0b0b0b; /* Dark theme */
+      color: #e2e8f0; /* Soft white */
       min-height: 100vh;
-      padding-bottom: 120px;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      overflow-x: hidden;
     }
 
     /* Clean Header - Borderless */
     header {
       width: 100%;
-      padding: 48px 24px 16px;
+      padding: 48px 24px 12px;
       text-align: center;
       background: #0b0b0b;
-      border: none; /* No lines */
+      border: none;
+      z-index: 10;
     }
 
     header h1 {
       font-size: 26px;
       font-weight: 700;
-      color: #e2e8f0; /* Soft white */
+      color: #e2e8f0;
       letter-spacing: -0.3px;
     }
 
     header p {
       font-size: 14px;
-      color: #8a8f99; /* Soft gray */
-      margin-top: 6px;
+      color: #8a8f99;
+      margin-top: 4px;
     }
 
-    /* Content Area */
-    .content-container {
-      width: 100%;
-      max-width: 500px;
-      padding: 16px 20px;
+    /* ---------------------------------------------------- */
+    /* HORIZONTAL SWIPE / SCROLL CONTAINER                  */
+    /* ---------------------------------------------------- */
+    .content-slider {
+      display: flex;
+      width: 100vw;
+      flex: 1;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 120px; /* Space for bottom buttons */
+      scrollbar-width: none; /* Hide scrollbar Firefox */
+    }
+
+    .content-slider::-webkit-scrollbar {
+      display: none; /* Hide scrollbar Chrome/Safari */
     }
 
     .tab-content {
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
+      flex: 0 0 100vw;
+      width: 100vw;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      padding: 20px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
     }
 
     .card {
+      width: 100%;
+      max-width: 480px;
       background: #151515;
       border-radius: 20px;
-      padding: 22px;
-      margin-bottom: 16px;
+      padding: 24px;
       border: none;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      height: fit-content;
     }
 
     .card h3 {
@@ -90,7 +101,7 @@
     }
 
     /* ---------------------------------------------------- */
-    /* 4 SEPARATE FLOATING ROUND CIRCLE BUTTONS (SLICE STYLE) */
+    /* 4 SEPARATE FLOATING ROUND CIRCLE BUTTONS             */
     /* ---------------------------------------------------- */
     .floating-circles-container {
       position: fixed;
@@ -100,7 +111,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 14px; /* Space between the floating circles */
+      gap: 16px;
       z-index: 9999;
     }
 
@@ -108,15 +119,24 @@
     .nav-circle {
       width: 52px;
       height: 52px;
-      border-radius: 50%; /* Perfect Circle */
-      background: #1c1c1e; /* Dark soft gray circle */
+      border-radius: 50%;
+      background: #1c1c1e;
       border: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #71717a; /* Soft muted gray icon */
+      color: #71717a; /* Soft gray icon */
       cursor: pointer;
-      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      
+      /* ULTRA-SMOOTH FLUID MORPH CURVE (No harsh snapping) */
+      transition: 
+        width 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        height 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        background-color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.2s ease;
+        
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
@@ -128,14 +148,17 @@
       stroke-linecap: round;
       stroke-linejoin: round;
       fill: none;
-      transition: transform 0.3s ease, stroke 0.3s ease;
+      transition: 
+        width 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        height 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        stroke 0.45s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* ACTIVE ENLARGED CIRCLE (Just like in the screenshot) */
+    /* ACTIVE SMOOTH ENLARGED CIRCLE */
     .nav-circle.active {
-      width: 68px; /* Larger circular size */
+      width: 68px;
       height: 68px;
-      background: #2c2c2e; /* Lighter soft dark gray highlight */
+      background: #2c2c2e; /* Lighter soft gray highlight */
       color: #e2e8f0; /* Soft White */
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
     }
@@ -143,7 +166,7 @@
     .nav-circle.active svg {
       width: 28px;
       height: 28px;
-      stroke: #e2e8f0; /* Soft white icon */
+      stroke: #e2e8f0;
       stroke-width: 2.2;
     }
 
@@ -157,77 +180,101 @@
   <!-- Header -->
   <header>
     <h1>Minsathya</h1>
-    <p>Live app updates</p>
+    <p>Swipe horizontally or tap buttons</p>
   </header>
 
-  <!-- Page Sections -->
-  <main class="content-container">
-    <div id="home" class="tab-content active">
+  <!-- Horizontal Scroll Container -->
+  <main class="content-slider" id="contentSlider">
+    
+    <div id="page-0" class="tab-content">
       <div class="card">
-        <h3>Home</h3>
-        <p>Welcome to Minsathya!</p>
+        <h3>Home Page</h3>
+        <p>Swipe left or right to switch pages smoothly. Notice how the active bottom circle fluidly transitions to the next button!</p>
       </div>
     </div>
 
-    <div id="scan" class="tab-content">
+    <div id="page-1" class="tab-content">
       <div class="card">
-        <h3>Scan / Quick Action</h3>
-        <p>Main action view triggered from the larger center circle button.</p>
+        <h3>Scan / Quick View</h3>
+        <p>You are on the second page. Tapping or swiping transfers the zoom animation smoothly without sudden popping.</p>
       </div>
     </div>
 
-    <div id="updates" class="tab-content">
+    <div id="page-2" class="tab-content">
       <div class="card">
-        <h3>Updates</h3>
-        <p>Check your latest notifications and updates here.</p>
+        <h3>Live Updates</h3>
+        <p>Check your latest news and notifications here.</p>
       </div>
     </div>
 
-    <div id="profile" class="tab-content">
+    <div id="page-3" class="tab-content">
       <div class="card">
-        <h3>Profile</h3>
-        <p>Manage your account settings.</p>
+        <h3>User Profile</h3>
+        <p>Manage your preferences and personal account settings.</p>
       </div>
     </div>
+
   </main>
 
   <!-- 4 Standalone Floating Round Circle Buttons -->
   <nav class="floating-circles-container">
     
-    <!-- Circle 1: Home -->
-    <button class="nav-circle active" onclick="switchTab(this, 'home')">
+    <button class="nav-circle active" data-index="0" onclick="navigateToPage(0)">
       <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
     </button>
 
-    <!-- Circle 2: Scan / Center Action -->
-    <button class="nav-circle" onclick="switchTab(this, 'scan')">
+    <button class="nav-circle" data-index="1" onclick="navigateToPage(1)">
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" ry="5"></rect><rect x="9" y="9" width="6" height="6" rx="1.5"></rect></svg>
     </button>
 
-    <!-- Circle 3: Updates -->
-    <button class="nav-circle" onclick="switchTab(this, 'updates')">
+    <button class="nav-circle" data-index="2" onclick="navigateToPage(2)">
       <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
     </button>
 
-    <!-- Circle 4: Profile -->
-    <button class="nav-circle" onclick="switchTab(this, 'profile')">
+    <button class="nav-circle" data-index="3" onclick="navigateToPage(3)">
       <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
     </button>
 
   </nav>
 
   <script>
-    function switchTab(button, tabId) {
-      // 1. Remove active state from all circles
-      document.querySelectorAll('.nav-circle').forEach(btn => btn.classList.remove('active'));
-      
-      // 2. Expand clicked circle
-      button.classList.add('active');
+    const slider = document.getElementById('contentSlider');
+    const buttons = document.querySelectorAll('.nav-circle');
+    let isClickScrolling = false;
 
-      // 3. Switch active content page
-      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-      document.getElementById(tabId).classList.add('active');
+    // Smooth button trigger
+    function navigateToPage(index) {
+      isClickScrolling = true;
+      updateActiveButton(index);
+      
+      const targetPage = document.getElementById(`page-${index}`);
+      slider.scrollTo({
+        left: targetPage.offsetLeft,
+        behavior: 'smooth'
+      });
+
+      setTimeout(() => { isClickScrolling = false; }, 500);
     }
+
+    // Update active button state smoothly
+    function updateActiveButton(index) {
+      buttons.forEach((btn, i) => {
+        if (i === index) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    // Detect horizontal scrolling to transfer active circle smoothly
+    slider.addEventListener('scroll', () => {
+      if (isClickScrolling) return;
+      
+      const pageWidth = window.innerWidth;
+      const activeIndex = Math.round(slider.scrollLeft / pageWidth);
+      updateActiveButton(activeIndex);
+    });
   </script>
 
 </body>
