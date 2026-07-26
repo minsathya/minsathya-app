@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minsathya</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: #f8fafc; color: #1e293b; padding-bottom: 90px; }
+    .content { padding: 40px 20px; text-align: center; }
+    
+    /* Floating Pill Navigation Bar */
+    .floating-nav {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 400px;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+      z-index: 1000;
+    }
+    .nav-item {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+    .nav-item.active, .nav-item:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.18);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="content">
+    <h1>Welcome to Minsathya</h1>
+    <p style="margin-top: 10px; color: #64748b;">Your live app content goes here.</p>
+  </div>
+
+  <!-- Floating Navigation -->
+  <nav class="floating-nav">
+    <a href="#" class="nav-item active">Home</a>
+    <a href="#" class="nav-item">Articles</a>
+    <a href="#" class="nav-item">Updates</a>
+    <a href="#" class="nav-item">Profile</a>
+  </nav>
+
+</body>
+</html>
