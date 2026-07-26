@@ -5,16 +5,18 @@
         <item name="colorPrimary">#0b0b0b</item>
         <item name="colorPrimaryDark">#0b0b0b</item>
         <item name="colorAccent">#1a231e</item>
-        <item name="android:windowBackground">#0b0b0b</item>
+        <item name="android:windowBackground">#1a231e</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:background">#0b0b0b</item>
+        <item name="android:background">#1a231e</item>
     </style>
 
     <style name="AppTheme.NoActionBarLaunch" parent="AppTheme.NoActionBar">
-        <item name="android:background">@drawable/splash</item>
+        <item name="android:background">#1a231e</item>
+        <item name="android:windowSplashScreenBackground">#1a231e</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
     </style>
 </resources>
